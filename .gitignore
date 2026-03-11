@@ -1,0 +1,31 @@
+# Build outputs
+build/
+dist/
+*.o
+*.a
+*.so
+*.elf
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Signature files (generated; do not commit private-key products by default)
+# Carve out: public key bundles may be committed explicitly.
+*.sig
+*.asc
+!docs/KEYS.asc
+
+# OS
+.DS_Store
+Thumbs.db
