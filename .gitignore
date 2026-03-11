@@ -1,0 +1,92 @@
+# Compiled output
+*.o
+*.a
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+*.elf
+*.bin
+*.hex
+*.map
+*.d
+*.out
+
+# Build directories
+build/
+_build/
+out/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile.cmake
+
+# CMake / Makefile generated
+*.cmake
+!CMakeLists.txt
+
+# Dependency / package managers
+vcpkg_installed/
+conan/
+.conan/
+
+# Static analysis artefacts
+compile_commands.json
+.clang-tidy-cache/
+cppcheck-build/
+cppcheck*.xml
+scan-build*/
+
+# Editor / IDE artefacts
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+.project
+.cproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Clangd
+.cache/
+
+# Test artefacts
+*.gcov
+*.gcda
+*.gcno
+coverage/
+lcov.info
+
+# Archives
+*.tar.gz
+*.tar.bz2
+*.zip
+*.7z
+
+# Signing / key material (never commit private keys)
+*.sig
+*.asc
+!docs/KEYS.asc
+*.pem
+*.key
+*.p12
+*.pfx
+
+# ARM / MCU toolchain artefacts
+*.lss
+*.lst
+*.srec
+*.sym
+
+# Python (for any tooling scripts)
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+env/
