@@ -1,0 +1,45 @@
+# Compiled output
+*.o
+*.a
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+*.elf
+*.bin
+*.hex
+*.map
+*.d
+*.out
+
+# Build directories
+build/
+_build/
+out/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+
+# CMake / Makefile generated
+*.cmake
+!CMakeLists.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
