@@ -1,0 +1,29 @@
+# Build artefacts
+build/
+*.o
+*.a
+*.so
+*.dylib
+*.exe
+
+# Verilog simulation
+*.vcd
+*.vvp
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+dist/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
