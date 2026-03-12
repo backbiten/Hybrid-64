@@ -58,14 +58,29 @@ typedef struct hybrid64_platform_ops {
     int (*close)(void *ctx);
 
     /**
-     * Read exactly @p len bytes at byte offset @p offset into @p buf.
-     * @return  Bytes read (>= 0) or a negative H64_ERR_* error code.
+     * Read up to @p len bytes at byte offset @p offset into @p buf.
+     *
+     * Implementations MAY return fewer than @p len bytes in a single call
+     * (for example at end-of-file or if the underlying platform returns a
+     * short read).  Callers that need to obtain exactly @p len bytes must
+     * loop until the requested length has been read or an error/EOF is
+     * encountered.
+     *
+     * @return  Bytes read (>= 0, possibly less than @p len) or a negative
+     *          H64_ERR_* error code.
      */
     int (*read)(void *ctx, uint64_t offset, void *buf, size_t len);
 
     /**
-     * Write exactly @p len bytes at byte offset @p offset from @p buf.
-     * @return  Bytes written (>= 0) or a negative H64_ERR_* error code.
+     * Write up to @p len bytes at byte offset @p offset from @p buf.
+     *
+     * Implementations MAY write fewer than @p len bytes in a single call
+     * if the underlying platform performs a short write.  Callers that
+     * require all-or-nothing semantics must loop until @p len bytes have
+     * been written or an error is returned.
+     *
+     * @return  Bytes written (>= 0, possibly less than @p len) or a
+     *          negative H64_ERR_* error code.
      */
     int (*write)(void *ctx, uint64_t offset, const void *buf, size_t len);
 
