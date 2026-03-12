@@ -30,9 +30,10 @@ int hybrid64_open(hybrid64_drive_t *drv, const char *path, int flags)
     if (!drv->ops)              return H64_ERR_NOT_IMPLEMENTED;
     if (!drv->ops->open)        return H64_ERR_NOT_IMPLEMENTED;
 
-    int r = drv->ops->open(drv->platform_ctx, path, flags);
+    int eff_flags = flags | H64_FLAG_READ;
+    int r = drv->ops->open(drv->platform_ctx, path, eff_flags);
     if (r == H64_OK) {
-        drv->flags   = flags;
+        drv->flags   = eff_flags;
         drv->is_open = true;
     }
     return r;
