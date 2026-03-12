@@ -203,12 +203,35 @@ int posix_drive_read(void *ctx, uint64_t offset, void *buf, size_t len)
         return H64_ERR_INVALID_ARG;
     }
 
-    ssize_t r = pread(c->fd, buf, len, (off_t)offset);
-    if (r < 0) {
-        fprintf(stderr, "[hybrid64] ERROR: pread: %s\n", strerror(errno));
-        return H64_ERR_IO;
+    size_t total = 0;
+    unsigned char *p = (unsigned char *)buf;
+
+    while (total < len) {
+        ssize_t r = pread(c->fd,
+                          p + total,
+                          len - total,
+                          (off_t)(offset + (uint64_t)total));
+        if (r < 0) {
+            if (errno == EINTR) {
+                /* Retry on interrupt. */
+                continue;
+            }
+            fprintf(stderr, "[hybrid64] ERROR: pread: %s\n", strerror(errno));
+            return H64_ERR_IO;
+        }
+        if (r == 0) {
+            /* EOF or unable to read further before satisfying len. */
+            fprintf(stderr,
+                    "[hybrid64] ERROR: short read: requested %zu bytes, "
+                    "received %zu bytes\n",
+                    len, total);
+            return H64_ERR_IO;
+        }
+
+        total += (size_t)r;
     }
-    return (int)r;
+
+    return (int)total;
 }
 
 int posix_drive_write(void *ctx, uint64_t offset, const void *buf, size_t len)
