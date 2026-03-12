@@ -287,7 +287,40 @@ int main(int argc, char *argv[])
                 return 1;
             }
         }
-        fwrite(buf, 1, (size_t)n, out);
+
+        /* Ensure all bytes are written and detect any write errors. */
+        size_t total_written = 0;
+        size_t to_write = (size_t)n;
+        while (total_written < to_write) {
+            size_t written = fwrite(buf + total_written, 1,
+                                    to_write - total_written, out);
+            if (written == 0) {
+                if (ferror(out)) {
+                    fprintf(stderr,
+                            "[hybrid64] ERROR: write to %s failed: %s\n",
+                            out_file ? out_file : "stdout", strerror(errno));
+                } else {
+                    fprintf(stderr,
+                            "[hybrid64] ERROR: write to %s incomplete\n",
+                            out_file ? out_file : "stdout");
+                }
+                if (out_file) fclose(out);
+                free(buf);
+                hybrid64_close(&drv);
+                return 1;
+            }
+            total_written += written;
+        }
+
+        if (fflush(out) == EOF) {
+            fprintf(stderr,
+                    "[hybrid64] ERROR: flush to %s failed: %s\n",
+                    out_file ? out_file : "stdout", strerror(errno));
+            if (out_file) fclose(out);
+            free(buf);
+            hybrid64_close(&drv);
+            return 1;
+        }
         if (out_file) fclose(out);
 
         free(buf);
