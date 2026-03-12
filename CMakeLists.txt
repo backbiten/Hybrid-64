@@ -13,7 +13,7 @@ set(CMAKE_C_EXTENSIONS        OFF)
 # Core is always built.
 add_subdirectory(core)
 
-# POSIX adapter and CLI are built on Linux / generic UNIX.
-if(UNIX)
+# POSIX adapter and CLI are built only on Linux (require /proc/mounts semantics).
+if(UNIX AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
     add_subdirectory(platform/posix)
 endif()
